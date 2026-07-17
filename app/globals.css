@@ -129,6 +129,15 @@ button { cursor: pointer; }
 .side-label { font-size: 8px; font-weight: 700; }
 .shape-diamond { transition: transform 0.16s ease; transform-box: fill-box; transform-origin: center; }
 .shape-overlay:hover .shape-diamond { transform: scale(1.25); }
+.signal-marker { cursor: pointer; }
+.signal-marker-hit { stroke: transparent; stroke-width: 12; pointer-events: stroke; }
+.signal-marker-line { stroke-width: 1.15; stroke-dasharray: 3 4; opacity: 0.3; transition: opacity 0.16s ease, stroke-width 0.16s ease; pointer-events: none; }
+.signal-marker-dot { opacity: 0.48; transition: opacity 0.16s ease, r 0.16s ease; pointer-events: none; }
+.signal-marker-label { fill: #06110f; font: 800 7px ui-monospace, monospace; pointer-events: none; }
+.signal-marker:hover .signal-marker-line { opacity: 0.72; stroke-width: 1.7; }
+.signal-marker:hover .signal-marker-dot { opacity: 0.82; }
+.signal-marker.selected .signal-marker-line { opacity: 1; stroke-width: 2.5; stroke-dasharray: none; }
+.signal-marker.selected .signal-marker-dot { opacity: 1; }
 .crosshair { stroke: rgba(236, 252, 247, 0.26); stroke-width: 1; stroke-dasharray: 4 4; }
 .hover-point { fill: #fff; stroke: var(--teal); stroke-width: 2; }
 .ohlc-float { position: absolute; left: 16px; top: 12px; display: flex; gap: 10px; align-items: center; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: rgba(4, 12, 11, 0.9); font: 10px ui-monospace, monospace; color: #b8cec9; pointer-events: none; }

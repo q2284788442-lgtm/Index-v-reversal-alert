@@ -147,6 +147,18 @@ function CandleChart({
           {day.shapes.map((shape) => {
             const selected = selectedShape === shape.id;
             const color = shape.kind === "V" ? "#f5b942" : "#2bd8e6";
+            const directionClass = shape.kind === "V" ? "v" : "inv";
+            return <g key={`signal-${shape.id}`} className={`signal-marker ${directionClass} ${selected ? "selected" : ""}`} role="button" aria-label={`${shapeName(shape)}极值点 ${shape.pivotTime}`} onPointerDown={(event) => { event.stopPropagation(); onSelectShape(shape); }}>
+              <title>{`${shapeName(shape)}极值点 · ${shape.pivotTime} · 报警 ${shape.alertTime}`}</title>
+              <line x1={x(shape.pivot)} x2={x(shape.pivot)} y1={margin.top} y2={priceBottom} stroke={color} className="signal-marker-hit" />
+              <line x1={x(shape.pivot)} x2={x(shape.pivot)} y1={margin.top} y2={priceBottom} stroke={color} className="signal-marker-line" filter={selected ? "url(#shapeGlow)" : undefined} />
+              <circle cx={x(shape.pivot)} cy={margin.top + 8} r={selected ? 5.5 : 4} fill={color} className="signal-marker-dot" filter={selected ? "url(#shapeGlow)" : undefined} />
+              <text x={x(shape.pivot)} y={margin.top + 11} textAnchor="middle" className="signal-marker-label">{shape.kind === "V" ? "V" : "∧"}</text>
+            </g>;
+          })}
+          {day.shapes.map((shape) => {
+            const selected = selectedShape === shape.id;
+            const color = shape.kind === "V" ? "#f5b942" : "#2bd8e6";
             const leftY = y(day.bars[shape.left][4]);
             const pivotY = y(day.bars[shape.pivot][4]);
             const rightY = y(day.bars[shape.right][4]);
@@ -231,7 +243,7 @@ export default function Home() {
   const moveDate = useCallback((direction: -1 | 1) => { if (!indexMeta || !date) return; const current = indexMeta.dates.indexOf(date); setDate(indexMeta.dates[Math.max(0, Math.min(indexMeta.dates.length - 1, current + direction))]); }, [indexMeta, date]);
   useEffect(() => { const handler = (event: KeyboardEvent) => { if (event.key === "ArrowLeft") moveDate(-1); if (event.key === "ArrowRight") moveDate(1); }; window.addEventListener("keydown", handler); return () => window.removeEventListener("keydown", handler); }, [moveDate]);
   const selected = day?.shapes.find((shape) => shape.id === selectedShape) ?? null;
-  const selectShape = (shape: ShapeSignal) => { setSelectedShape(shape.id); setSelectedMinute(shape.alert); };
+  const selectShape = (shape: ShapeSignal) => { setSelectedShape(shape.id); setSelectedMinute(shape.pivot); };
   const completeV = day?.shapes.filter((shape) => shape.status === "complete" && shape.kind === "V").length ?? 0;
   const completeInv = day?.shapes.filter((shape) => shape.status === "complete" && shape.kind === "INV_V").length ?? 0;
 
