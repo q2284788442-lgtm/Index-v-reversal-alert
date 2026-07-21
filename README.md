@@ -1,3 +1,5 @@
+# 演示
+![项目截图](61df1de8-bcf5-408b-a173-2eebaf703338.png)
 # 分钟模型左右侧观察台
 
 页面读取 `D:\V-Right\outputs\all_train` 中三个指数的六个 5 分钟 LightGBM 模型，并使用 `D:\V-Right\reports\strict_events.csv` 判断报警后的严格形态是否成立。
